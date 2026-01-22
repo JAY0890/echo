@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: echo
+
+  server:
+    port: 8081
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/echo
+    username: postgres
+    password: jay123
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
