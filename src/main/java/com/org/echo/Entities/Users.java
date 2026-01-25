@@ -1,11 +1,14 @@
 package com.org.echo.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,6 +35,8 @@ public class Users {
     @Column(updatable = false,name = "registered_at")
     LocalDate registered_at;
 
-
+     @OneToMany(mappedBy = "users")
+     @JsonIgnoreProperties("users")
+     List<Posts> posts;
 
 }

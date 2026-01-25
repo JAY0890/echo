@@ -1,7 +1,11 @@
 package com.org.echo.Controller;
 
+import com.org.echo.DTO.PostsResponseDTO;
 import com.org.echo.DTO.UsersDTO;
+import com.org.echo.DTO.UsersResponseDTO;
+import com.org.echo.Entities.Posts;
 import com.org.echo.Entities.Users;
+import com.org.echo.Repository.UsersRepository;
 import com.org.echo.Service.UsersService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,4 +25,11 @@ public class UsersController {
 
         return usersService.register(usersDTO);
     }
+
+    @GetMapping("/get/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UsersResponseDTO finduser(@PathVariable int id){
+         return usersService.getuser(id);
+    }
+
 }
