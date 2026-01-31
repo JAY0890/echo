@@ -14,9 +14,11 @@ public class PostsDTO {
     @Size(min = 10,max = 20,message = "minimum title length is 10 and max is 20")
     String title;
 
-    @Size(min = 50,max = 250,message = "minimum content length is 50 and max is 250")
+    @Size(min = 5,max = 250,message = "minimum content length is 50 and max is 250")
     String content;
 
     @NotNull(message = "please provide a valid id")
     Integer userid;
+
+    int[] categories;
 }

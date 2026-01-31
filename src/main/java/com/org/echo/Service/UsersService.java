@@ -3,6 +3,7 @@ package com.org.echo.Service;
 import com.org.echo.DTO.PostsResponseDTO;
 import com.org.echo.DTO.UsersDTO;
 import com.org.echo.DTO.UsersResponseDTO;
+import com.org.echo.Entities.Category;
 import com.org.echo.Entities.Posts;
 import com.org.echo.Entities.Users;
 import com.org.echo.Repository.UsersRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UsersService {
@@ -51,8 +53,8 @@ public class UsersService {
 
             String content=p.getContent();
             LocalDateTime posted_at=p.getPosted_at();
-
-            PostsResponseDTO responseDTO=new PostsResponseDTO(i,title,content,posted_at);
+            Set<Category> categories=p.getCategories();
+            PostsResponseDTO responseDTO=new PostsResponseDTO(i,title,content,posted_at,categories);
             postsResponseDTOS.add(responseDTO);
         }
         usersResDTO.setPosts(postsResponseDTOS);

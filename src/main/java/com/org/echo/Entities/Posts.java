@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -30,4 +32,12 @@ public class Posts {
 
     @ManyToOne
     Users users;
+
+    @ManyToMany
+    @JoinTable(
+            name = "post_category",
+            joinColumns = @JoinColumn(name="post_id"),
+            inverseJoinColumns = @JoinColumn(name="category_id")
+    )
+    Set<Category> categories=new HashSet<>();
 }
