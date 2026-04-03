@@ -7,6 +7,12 @@ import com.org.echo.Entities.Category;
 import com.org.echo.Entities.Posts;
 import com.org.echo.Entities.Users;
 import com.org.echo.Repository.UsersRepository;
+import com.org.echo.DTO.AuthResponseDTO;
+import com.org.echo.DTO.LoginRequestDTO;
+import com.org.echo.securityconfig.JwtService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +27,20 @@ public class UsersService {
     @Autowired
     UsersRepository usersRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    
+    @Autowired
+    private JwtService jwtService;
 
     public Users register(UsersDTO usersDTO){
         Users user=new Users();
 
         user.setEmail(usersDTO.getEmail());
-        user.setPassword(usersDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
         user.setFirstname(usersDTO.getFirstname());
         user.setLastname(usersDTO.getLastname());
         user.setAge(usersDTO.getAge());
@@ -60,6 +74,19 @@ public class UsersService {
         usersResDTO.setPosts(postsResponseDTOS);
 
         return usersResDTO;
+    }
+
+    public AuthResponseDTO authenticate(LoginRequestDTO request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+        Users user = usersRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        String jwtToken = jwtService.generateToken(user);
+        return new AuthResponseDTO(jwtToken);
     }
 
 }

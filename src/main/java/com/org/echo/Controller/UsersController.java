@@ -3,6 +3,8 @@ package com.org.echo.Controller;
 import com.org.echo.DTO.PostsResponseDTO;
 import com.org.echo.DTO.UsersDTO;
 import com.org.echo.DTO.UsersResponseDTO;
+import com.org.echo.DTO.AuthResponseDTO;
+import com.org.echo.DTO.LoginRequestDTO;
 import com.org.echo.Entities.Posts;
 import com.org.echo.Entities.Users;
 import com.org.echo.Repository.UsersRepository;
@@ -30,6 +32,12 @@ public class UsersController {
     @ResponseStatus(HttpStatus.OK)
     public UsersResponseDTO finduser(@PathVariable int id){
          return usersService.getuser(id);
+    }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public AuthResponseDTO login(@RequestBody @Valid LoginRequestDTO loginRequestDTO){
+        return usersService.authenticate(loginRequestDTO);
     }
 
 }
