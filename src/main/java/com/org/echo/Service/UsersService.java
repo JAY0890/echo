@@ -50,7 +50,7 @@ public class UsersService {
     }
 
     public UsersResponseDTO getuser(int id){
-        Users u=usersRepository.findById(id).orElseThrow(()->new RuntimeException("no user found"));
+        Users u=usersRepository.findByIdWithPostsAndCategories(id).orElseThrow(()->new RuntimeException("no user found"));
         UsersResponseDTO usersResDTO=new UsersResponseDTO();
 
         usersResDTO.setEmail(u.getEmail());
